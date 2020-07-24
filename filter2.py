@@ -1,6 +1,7 @@
 #!/home/humberto/humberto/miniconda3/envs/roble3/bin/python
 
 import sys
+import time
 import screed
 import os
 import khmer
@@ -117,6 +118,7 @@ def get_parser():
 
 
 def main():  # pylint: disable=too-many-branches,too-many-statements
+    start_time = time.time()
     parser = sanitize_help(get_parser())
     args = parser.parse_args()
 
@@ -192,6 +194,8 @@ def main():  # pylint: disable=too-many-branches,too-many-statements
             for record in snarf(is_paired, read0, read1, countgraph1, countgraph2):
                 if record is not None:
                     write_record(record, outfp)
+                    
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 def snarf(is_paired, read0, read1, countgraph1, countgraph2):
         batch = ReadBundle(read0, read1)
